@@ -1,11 +1,12 @@
-class Grass extends Creature {
+let Creature = require('./creature');
+module.exports = class Grass extends Creature {
 
     mul() {
         this.energy++;
         let found = this.chooseCell(0);
         let exact = random(found)
 
-        if (exact && this.energy > 2) {
+        if (exact && this.energy > 0.5) {
             let x = exact[0];
             let y = exact[1];
 

@@ -1,10 +1,4 @@
-var grassArr = [];
-var redEaterArr = [];
-var grassEaterArr = [];
-var everyEaterArr = [];
-var waterArr = [];
 const side = 50;
-var matrix = [];
 
 function setup() {
 
