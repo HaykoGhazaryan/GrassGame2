@@ -1,4 +1,4 @@
-module.export = class Creature {
+module.exports = class Creature {
     constructor(x, y) {
         this.x = x;
         this.y = y;
@@ -42,4 +42,9 @@ module.export = class Creature {
 
         return result;
     }
+    c(character) {
+        const cells = this.chooseCell(character);
+        const randomIndex = Math.floor(Math.random() * cells.length);
+        return cells[randomIndex];
+        }
 }

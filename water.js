@@ -1,4 +1,5 @@
-class Water {
+let Creature = require('./creature');
+module.exports = class Water extends Creature{
     constructor(x, y) {
         this.x = x;
         this.y = y;

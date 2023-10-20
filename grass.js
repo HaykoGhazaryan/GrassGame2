@@ -3,8 +3,7 @@ module.exports = class Grass extends Creature {
 
     mul() {
         this.energy++;
-        let found = this.chooseCell(0);
-        let exact = random(found)
+        let exact = this.selectRandomCell(0);
 
         if (exact && this.energy > 0.5) {
             let x = exact[0];

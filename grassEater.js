@@ -1,8 +1,7 @@
 let Creature = require('./creature');
 module.exports = class GrassEater extends Creature {
     mul() {
-        let found = this.chooseCell(0);
-        let exact = random(found)
+        let exact = this.selectRandomCell(0);
 
         if (exact && this.energy > 10) {
             let x = exact[0];
@@ -17,8 +16,7 @@ module.exports = class GrassEater extends Creature {
 
     }
     eat() {
-        let found = this.chooseCell(1);
-        let exact = random(found)
+        let exact = this.selectRandomCell(1);
 
         if (exact) {
             this.energy += 5;
@@ -45,8 +43,7 @@ module.exports = class GrassEater extends Creature {
         }
     }
     move() {
-        let found = this.chooseCell(0);
-        let exact = random(found)
+        let exact = this.selectRandomCell(0);
 
         if (exact) {
             let x = exact[0];
