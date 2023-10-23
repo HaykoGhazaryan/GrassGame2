@@ -3,17 +3,16 @@ module.exports = class RedEater extends Creature {
     mul() {
         let exact = this.selectRandomCell(0);
 
-        if (exact && this.energy > 8) {
+        if (exact && this.energy > 10) {
             let x = exact[0];
             let y = exact[1];
 
-            let redEater = new RedEater(x, y);
+            let eater = new RedEater(x, y);
             matrix[y][x] = 4;
-            redEaterArr.push(redEater);
+            grassEaterArr.push(eater);
 
-            this.energy = 5;
+            this.energy = 10;
         }
-
     }
     eat() {
         let exact = this.selectRandomCell(3);
@@ -23,8 +22,9 @@ module.exports = class RedEater extends Creature {
             let x = exact[0];
             let y = exact[1];
 
-            for (let i = 0; i < redEaterArr.length; i++) {
-                if (redEaterArr[i].x == x && redEaterArr[i].y == y) {
+            for (let i = 0; i < everyEaterArr.length; i++) {
+                if (everyEaterArr[i].x == x && everyEaterArr[i].y == y) {
+                    everyEaterArr.splice(i, 3)
                 }
             }
 

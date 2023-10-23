@@ -11,11 +11,6 @@ app.get('/', (req, res) => {
     res.redirect('index.html');
 })
 
-grassArr = [];
-redEaterArr = [];
-grassEaterArr = [];
-everyEaterArr = [];
-waterArr = [];
 matrix = [];
 cellNum = 40
 
@@ -53,15 +48,14 @@ function fillMatrix(cellNum, grassNum, grassEaterNum, redEaterNum, allEaterNum, 
 }
 
 
-
 function initGame() {
-    fillMatrix(cellNum, 2, 2, 4, 8, 5);
+    matrix = fillMatrix(cellNum, 50, 8, 8, 8, 50);
     initArrays();
-
     startInterval();
 }
 
 function initArrays() {
+
     grassArr = [];
     redEaterArr = [];
     grassEaterArr = [];
@@ -126,10 +120,25 @@ function playGame() {
 io.on("connection", function (socket) {
     socket.emit('draw matrix', matrix);
     initGame();
+    socket.on('pause game', handlePauseGame)
+    socket.on('restart game', handleRestartGame)
 })
 
-app.listen(3000, function () {
+function handlePauseGame(ifPaused) {
+    if (ifPaused) {
+        clearInterval(intId)
+    } else {
+        startInterval()
+    }
+}
 
-    console.log("Example is running on port 3000");
+function handleRestartGame() {
+    clearInterval()
+    initGame()
+}
+
+server.listen(3001, function () {
+
+    console.log("Example is running on port 3001");
 
 });

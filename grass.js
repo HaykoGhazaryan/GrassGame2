@@ -1,7 +1,7 @@
 let Creature = require('./creature');
 module.exports = class Grass extends Creature {
 
-    mul() {
+    mul() { 
         this.energy++;
         let exact = this.selectRandomCell(0);
 

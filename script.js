@@ -1,6 +1,30 @@
-const side = 50;
+const side = 15;
 let cellNum = 40;
 const Socket = io()
+
+const pauseBtn = document.querySelector('#pause')
+const resumeBtm = document.querySelector('#resume')
+const restartBtn = document.querySelector('#restart')
+
+pauseBtn.addEventListener('click', handlePauseGame)
+resumeBtm.addEventListener('click', handleResumeGame)
+restartBtn.addEventListener('click', handleRestartGame)
+
+let ifPaused = false;
+
+function handlePauseGame() {
+    ifPaused = true
+    socket.emit('pause game', ifPaused)
+}
+
+function handleResumeGame() {
+    ifPaused = false
+    socket.emit('pause game', ifPaused)
+}
+
+function handleRestartGame() {
+    socket.emit('restart game')
+}
 
 function setup() {
     frameRate(8);
