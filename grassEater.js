@@ -1,9 +1,15 @@
 let Creature = require('./creature');
+const io = require('./server');
+
 module.exports = class GrassEater extends Creature {
     mul() {
         let exact = this.selectRandomCell(0);
 
         if (exact && this.energy > 10) {
+
+            statisticObj.grassEater++;
+            io.emit('change statistic', statisticObj);
+
             let x = exact[0];
             let y = exact[1];
 

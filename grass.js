@@ -1,4 +1,6 @@
 let Creature = require('./creature');
+const io = require('./server');
+
 module.exports = class Grass extends Creature {
 
     mul() { 
@@ -6,6 +8,10 @@ module.exports = class Grass extends Creature {
         let exact = this.selectRandomCell(0);
 
         if (exact && this.energy > 0.5) {
+
+            statisticObj.grass++;
+            io.emit('change statistic', statisticObj);
+
             let x = exact[0];
             let y = exact[1];
 

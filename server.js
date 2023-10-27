@@ -4,6 +4,7 @@ const http = require('http');
 
 const server = http.createServer(app);
 const io = require('socket.io')(server);
+module.exports = io;
 
 app.use(express.static("."));
 
@@ -12,15 +13,24 @@ app.get('/', (req, res) => {
 })
 
 matrix = [];
-cellNum = 40
+cellNum = 40;
 
-let Grass = require('./grass.js')
-let GrassEater = require('./grassEater.js')
-let EveryEater = require('./classAllEater.js')
-let Water = require('./water.js')
-let RedEater = require('./redEater.js')
+statisticObj = {
+    grass: 0,
+    grassEater: 0,
+    everyEater: 0,
+    redEater: 0,
+    fish: 0
+}
 
-function fillMatrix(cellNum, grassNum, grassEaterNum, redEaterNum, allEaterNum, waterNum) {
+let Grass = require('./grass.js');
+let GrassEater = require('./grassEater.js');
+let EveryEater = require('./classAllEater.js');
+let Water = require('./water.js');
+let RedEater = require('./redEater.js');
+let Fish = require('./fish.js')
+
+function fillMatrix(cellNum, grassNum, grassEaterNum, redEaterNum, allEaterNum, waterNum, fishNum) {
     let matrix = [];
     for (let y = 0; y < cellNum; y++) {
         matrix[y] = [];
@@ -44,12 +54,14 @@ function fillMatrix(cellNum, grassNum, grassEaterNum, redEaterNum, allEaterNum, 
     fillRandomCells(3, redEaterNum);
     fillRandomCells(4, allEaterNum);
     fillRandomCells(5, waterNum);
+    fillRandomCells(6, fishNum);
     return matrix;
 }
 
 
 function initGame() {
-    matrix = fillMatrix(cellNum, 50, 8, 8, 8, 50);
+    matrix = fillMatrix(cellNum, 40, 8, 8, 8, 50, 8);
+    
     initArrays();
     startInterval();
 }
@@ -61,6 +73,7 @@ function initArrays() {
     grassEaterArr = [];
     everyEaterArr = [];
     waterArr = [];
+    fishArr = [];
 
     for (let y = 0; y < cellNum; y++) {
         for (let x = 0; x < cellNum; x++) {
@@ -82,19 +95,23 @@ function initArrays() {
                 redEaterArr.push(redEater);
 
             }
+            else if (matrix[y][x] == 6) {
+                let fish = new Fish(x, y);
+                fishArr.push(fish);
+            }
 
         }
     }
 }
 
-fillMatrix(cellNum)
-let speed = 300
+fillMatrix(cellNum);
+let speed = 300;
 let intId;
 
 function startInterval() {
     clearInterval(intId)
     intId = setInterval(function () {
-        playGame()
+        playGame();
     }, speed)
 }
 
@@ -113,32 +130,49 @@ function playGame() {
     }
     for (let i = 0; i < redEaterArr.length; i++) {
         const redEater = redEaterArr[i];
-        redEater.move()
+        redEater.eat();
     }
+    for (let i = 0; i < fishArr.length; i++) {
+        const fish = fishArr[i];
+        fish.eat();
+    }
+    io.emit('draw matrix', matrix);
 }
 
 io.on("connection", function (socket) {
     socket.emit('draw matrix', matrix);
     initGame();
-    socket.on('pause game', handlePauseGame)
-    socket.on('restart game', handleRestartGame)
+    socket.on('pause game', handlePauseGame);
+    socket.on('restart game', handleRestartGame);
+    socket.on('change seasons', handleChangeSeason);
 })
+
+function handleChangeSeason() {
+    if (seasons == 1) {
+        speed = 1000;
+    } else if (seasons == 2 || seasons == 4) {
+        speed = 700;
+    } else {
+        speed = 300;
+    }
+    startInterval();
+}
 
 function handlePauseGame(ifPaused) {
     if (ifPaused) {
-        clearInterval(intId)
+        clearInterval(intId);
     } else {
-        startInterval()
+        startInterval();
     }
 }
 
 function handleRestartGame() {
-    clearInterval()
-    initGame()
+    clearInterval();
+    initGame();
 }
 
-server.listen(3001, function () {
+server.listen(3005, function () {
 
-    console.log("Example is running on port 3001");
+    console.log("Example is running on port 3005");
 
 });

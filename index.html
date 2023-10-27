@@ -8,7 +8,16 @@
     <title>Document</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.14/p5.js"></script>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <style>body{width: max-content; margin: auto} canvas{margin-left: 30%} </style>
+    <style>
+        body {
+            width: max-content;
+            margin: auto
+        }
+
+        canvas {
+            margin-left: 30%
+        }
+    </style>
 </head>
 
 <body>
@@ -17,13 +26,20 @@
     <button id="resume">Resume Game</button>
     <button id="restart">Restart Gamme</button>
 
-    <!-- <script src="creature.js"></script> -->
-    <script src="script.js"></script>
-    <!-- <script src="classAllEater.js"></script>
-    <script src="grass.js"></script>
-    <script src="grassEater.js"></script>
-    <script src="redEater.js"></script> -->
 
+
+    <h2>Statistics</h2>
+    <div id="grass"></div>
+    <div id="grassEater"></div>
+    <div id="redEater"></div>
+    <div id="water"></div>
+    <div id="allEater"></div>
+    <div id="fish"></div>
+
+    <h2>Sesons</h2>
+    <button id="seasons">Change Seson</button>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
